@@ -1,11 +1,11 @@
 "use client"
 
-import { useRef } from "react"
+import { useEffect, useRef, useSyncExternalStore } from "react"
+import Image from "next/image"
 import { ArrowUpRight, Check } from "lucide-react"
 import { FaGithub } from "react-icons/fa6"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import {
   Dialog,
   DialogClose,
@@ -15,9 +15,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { ProjectVideo } from "@/components/site/project-video"
-import { TechStack } from "@/components/site/tech-stack"
 import type { Project } from "@/data/portfolio"
 import { getTechIcon } from "@/lib/tech-icons"
+import { cn } from "@/lib/utils"
 
 // Nested radii: inner = outer (18px) − padding (6px).
 const outer = "rounded-[18px]"
@@ -34,40 +34,89 @@ function Block({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+/** Muted preview that loads and plays only while `playing`; rewinds when it stops. */
+const noopSubscribe = () => () => {}
+
+function HoverVideo({ src, playing }: { src: string; playing: boolean }) {
+  // Client-only: video-speed browser extensions inject nodes beside server-rendered videos and break hydration.
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false)
+  const ref = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = ref.current
+    if (!video) return
+    if (playing) {
+      // Fetch the video only on first hover.
+      if (!video.getAttribute("src")) video.src = src
+      video.play().catch(() => {})
+    } else {
+      video.pause()
+      if (video.getAttribute("src")) video.currentTime = 0
+    }
+  }, [playing, src, mounted])
+
+  if (!mounted) return null
+
+  return (
+    <video
+      ref={ref}
+      muted
+      loop
+      playsInline
+      preload="none"
+      className={cn(
+        "absolute inset-0 size-full object-cover transition-opacity duration-500",
+        playing ? "opacity-100" : "opacity-0"
+      )}
+    />
+  )
+}
+
+export function ProjectCard({
+  project,
+  active,
+  onActiveChange,
+}: {
+  project: Project
+  active: boolean
+  onActiveChange: (active: boolean) => void
+}) {
   // Focus the top of the modal on open; by default focus jumps to the GitHub button and scrolls to the bottom.
   const topRef = useRef<HTMLDivElement>(null)
 
   return (
-    <Dialog>
-      <Card
-        className={`group h-full gap-0 bg-surface py-0 transition-[translate,background-color] duration-300 ease-in-out hover:-translate-y-1 hover:bg-white dark:bg-card/15 dark:hover:bg-card/5 ${outer} ${hairline}`}
+    <Dialog onOpenChange={(open) => open && onActiveChange(false)}>
+      {/* The thumbnail is the card. Hover plays the video and reveals the title, description and arrow. */}
+      <DialogTrigger
+        aria-label={`${project.title}: view details`}
+        onPointerEnter={(e) => e.pointerType === "mouse" && onActiveChange(true)}
+        onPointerLeave={() => onActiveChange(false)}
+        data-active={active || undefined}
+        className={`group/tile relative block aspect-[16/10] w-full overflow-hidden bg-neutral-200 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring dark:bg-neutral-900 ${outer} ${hairline}`}
       >
-        <div className={`${pad} pb-0`}>
-          <div className={`relative aspect-video overflow-hidden bg-neutral-200 shadow-border dark:bg-neutral-900 ${inner}`}>
-            <ProjectVideo src={project.video} poster={project.poster} className="transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
-          </div>
-        </div>
+        <Image
+          src={project.thumbnail}
+          alt=""
+          fill
+          sizes="(min-width: 640px) 376px, 100vw"
+          className="object-cover transition-transform duration-700 ease-out group-data-active/tile:scale-[1.03]"
+        />
+        <HoverVideo src={project.video} playing={active} />
 
-        <div className="flex flex-1 flex-col gap-3 px-4 pt-4 pb-4">
-          <div className="space-y-1.5">
-            <h3 className="text-lg leading-snug font-medium tracking-tight text-neutral-900 dark:text-white">{project.title}</h3>
-            <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{project.description}</p>
-          </div>
-          <TechStack tech={project.tech} className="mt-auto pt-1" />
-        </div>
+        <span
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/80 via-black/35 to-transparent opacity-0 transition-opacity duration-300 group-focus-visible/tile:opacity-100 group-data-active/tile:opacity-100 pointer-coarse:opacity-100"
+        />
 
-        <DialogTrigger
-          render={
-            <Button
-              variant="ghost"
-              className="h-10 w-full rounded-none border-t border-black/8 font-mono text-[11px] tracking-[0.2em] uppercase hover:bg-black/4 dark:border-white/8 dark:hover:bg-white/5"
-            />
-          }
-        >
-          View details <ArrowUpRight className="transition-transform group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5" />
-        </DialogTrigger>
-      </Card>
+        <span className="absolute top-3 right-3 grid size-9 scale-75 place-items-center rounded-full bg-white/90 text-black opacity-0 shadow-nav backdrop-blur-md transition-all duration-300 ease-out-quint group-focus-visible/tile:scale-100 group-focus-visible/tile:opacity-100 group-data-active/tile:scale-100 group-data-active/tile:opacity-100 pointer-coarse:scale-100 pointer-coarse:opacity-100">
+          <ArrowUpRight className="size-4 transition-transform duration-300 group-data-active/tile:translate-x-px group-data-active/tile:-translate-y-px" />
+        </span>
+
+        <span className="absolute inset-x-0 bottom-0 flex translate-y-3 flex-col gap-1 p-4 opacity-0 transition-all duration-400 ease-out-quint group-focus-visible/tile:translate-y-0 group-focus-visible/tile:opacity-100 group-data-active/tile:translate-y-0 group-data-active/tile:opacity-100 pointer-coarse:translate-y-0 pointer-coarse:opacity-100">
+          <span className="text-lg leading-snug font-medium tracking-tight text-white">{project.title}</span>
+          <span className="line-clamp-2 text-sm leading-relaxed text-white/75">{project.description}</span>
+        </span>
+      </DialogTrigger>
 
       <DialogContent
         initialFocus={topRef}

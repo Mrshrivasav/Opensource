@@ -22,6 +22,8 @@ export type Project = {
   title: string
   category: string
   description: string
+  /** Tile image. Placeholder frames from the videos for now; swap for real images in public/projects/thumbs. */
+  thumbnail: string
   video: string
   poster: string
   github: string
@@ -42,6 +44,7 @@ export const projects: Project[] = [
     category: "Web App",
     description:
       "Personal portfolio built with Next.js, TypeScript, and Tailwind CSS to showcase projects, skills, and AI assistant integrations.",
+    thumbnail: "/projects/thumbs/project-1.webp",
     video: "/projects/project-1.mp4",
     poster: "/projects/project-1.webp",
     github: "https://github.com/Mrshrivasav",
@@ -62,6 +65,7 @@ export const projects: Project[] = [
     title: "AI-Powered Mental Health Detection",
     category: "AI / ML",
     description: "Detects mental health trends from social media using a local LLM and AI analysis.",
+    thumbnail: "/projects/thumbs/project-2.webp",
     video: "/projects/project-2.mp4",
     poster: "/projects/project-2.webp",
     github: "https://github.com/Mrshrivasav",
@@ -81,6 +85,7 @@ export const projects: Project[] = [
     title: "AI-Powered E-Commerce MERN App",
     category: "Web App",
     description: "MERN stack online store with AI-powered recommendations and analytics.",
+    thumbnail: "/projects/thumbs/project-3.webp",
     video: "/projects/project-3.mp4",
     poster: "/projects/project-3.webp",
     github: "https://github.com/Mrshrivasav",
@@ -98,6 +103,7 @@ export const projects: Project[] = [
     title: "Jarvis Assistant with Local LLM & Face Auth",
     category: "AI / ML",
     description: "Personal assistant built with local LLM, face authentication, and voice commands.",
+    thumbnail: "/projects/thumbs/project-4.webp",
     video: "/projects/project-4.mp4",
     poster: "/projects/project-4.webp",
     github: "https://github.com/Mrshrivasav",

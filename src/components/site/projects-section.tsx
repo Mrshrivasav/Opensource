@@ -1,8 +1,7 @@
 import { BlurFade } from "@/components/site/blur-fade"
 import { Container } from "@/components/site/container"
-import { ProjectCard } from "@/components/site/project-card"
+import { ProjectsGrid } from "@/components/site/projects-grid"
 import { SectionHeading } from "@/components/site/section-heading"
-import { projects } from "@/data/portfolio"
 
 export function ProjectsSection() {
   return (
@@ -14,13 +13,7 @@ export function ProjectsSection() {
             full-stack MERN apps.
           </SectionHeading>
         </BlurFade>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {projects.map((project, i) => (
-            <BlurFade key={project.id} inView delay={(i % 2) * 0.1} className="h-full">
-              <ProjectCard project={project} />
-            </BlurFade>
-          ))}
-        </div>
+        <ProjectsGrid />
       </Container>
     </section>
   )
