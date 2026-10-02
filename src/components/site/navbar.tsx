@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { AnimatePresence, motion, type Variants } from "motion/react"
-import { ArrowUpRight, ChevronDown, Menu, PhoneCall } from "lucide-react"
+import { ArrowUpRight, ChevronDown, Menu } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/design-system/theme-toggle"
+import { HoverLift } from "@/components/site/hover-lift"
 import { profile, testimonials } from "@/data/portfolio"
 import { cn } from "@/lib/utils"
 
@@ -30,7 +31,7 @@ const more = [
 ]
 
 const itemClass =
-  "relative z-10 flex h-8 items-center gap-1.5 rounded-full px-3 text-sm outline-none transition-colors duration-200"
+  "relative z-10 flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-sm whitespace-nowrap outline-none transition-colors duration-200"
 const menuItemClass = "rounded-lg px-2.5 py-1.5 text-sm text-neutral-700 dark:text-white/80"
 const menuContentClass = "w-44 rounded-xl bg-white/90 p-1.5 shadow-nav ring-0 backdrop-blur-md dark:bg-neutral-800/90"
 
@@ -151,7 +152,7 @@ export function Navbar() {
   })
 
   return (
-    <header className="fixed inset-x-0 top-2.5 z-50 flex justify-center px-4 md:top-4">
+    <header className="fixed inset-x-0 top-2.5 z-50 flex items-center justify-center gap-2 px-4 md:top-4">
       <nav
         onMouseLeave={() => setHovered(null)}
         className="flex items-center rounded-full bg-white/85 p-1 shadow-nav backdrop-blur-md backdrop-saturate-150 dark:bg-neutral-800/85"
@@ -173,7 +174,7 @@ export function Navbar() {
         <DropdownMenu>
           <DropdownMenuTrigger {...hoverProps("Menu")} className={cn(itemClass, "md:hidden", tone("Menu"))} aria-label="Open menu">
             {highlighted === "Menu" && <Pill />}
-            <Menu className="size-4" /> Menu
+            <Menu className="size-4" /> <span className="max-[380px]:sr-only">Menu</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" sideOffset={10} className={menuContentClass}>
             {[...links, ...more].map((m) => (
@@ -184,19 +185,24 @@ export function Navbar() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <span aria-hidden className="mx-1 h-4 w-px bg-black/10 dark:bg-white/15" />
-
-        <span {...hoverProps("Theme")} className="relative z-10 flex">
-          {highlighted === "Theme" && <Pill />}
-          <ThemeToggle className={cn("size-8 hover:bg-transparent dark:hover:bg-transparent", tone("Theme"))} />
-        </span>
-
-        <a href={profile.bookCall} {...hoverProps("Book")} className={cn(itemClass, "group/call font-medium", tone("Book"))}>
-          {highlighted === "Book" && <Pill />}
-          <PhoneCall className="size-3.5 transition-transform duration-300 group-hover/call:-rotate-12" />
+        {/* Raised pill: lighter gradient + top highlight; brightens a touch on hover. */}
+        <a
+          href={profile.bookCall}
+          onMouseEnter={() => setHovered("Book")}
+          onFocus={() => setHovered("Book")}
+          className={cn(
+            "ml-1 flex h-8 shrink-0 items-center rounded-full px-4 text-sm font-medium whitespace-nowrap outline-none transition-[background-color,color,box-shadow] duration-300",
+            "bg-black/[0.07] text-neutral-700 shadow-[inset_0_1px_0_rgb(255_255_255/0.9),0_1px_2px_rgb(0_0_0/0.06)] hover:bg-black/[0.04] hover:text-black",
+            "dark:bg-white/[0.16] dark:text-white/80 dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.12),0_0_18px_rgb(255_255_255/0.06)] dark:hover:bg-white/[0.22] dark:hover:text-white"
+          )}
+        >
           Book a Call
         </a>
       </nav>
+
+      <HoverLift rotate={-8}>
+        <ThemeToggle className="size-10 [&_svg]:size-4.5" />
+      </HoverLift>
     </header>
   )
 }

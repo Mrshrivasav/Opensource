@@ -14,7 +14,13 @@ function subscribe(onChange: () => void) {
 
 const isDark = () => document.documentElement.classList.contains("dark")
 
-export function ThemeToggle({ className }: { className?: string }) {
+export function ThemeToggle({
+  className,
+  variant = "elevated",
+}: {
+  className?: string
+  variant?: "elevated" | "ghost"
+}) {
   const dark = useSyncExternalStore(subscribe, isDark, () => false)
 
   function toggle() {
@@ -30,7 +36,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       <TooltipTrigger
         render={
           <Button
-            variant={className ? "ghost" : "elevated"}
+            variant={variant}
             size="icon-round"
             className={className}
             onClick={toggle}
