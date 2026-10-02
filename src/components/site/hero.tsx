@@ -46,7 +46,7 @@ export function Hero() {
           <BlurFade>
             <HoverLift lift={3} scale={1.03} rotate={-2} className="flex w-fit">
               {/* Thin grey inner border (overlay above the photo) instead of an outer shadow. */}
-              <div className="relative size-18 overflow-hidden rounded-[14px] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border after:border-neutral-400/70 sm:size-20 dark:after:border-neutral-500/70">
+              <div className="relative size-18 overflow-hidden rounded-[14px] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border-2 after:border-neutral-400/50 sm:size-20 dark:after:border-neutral-500/50">
                 <div className="relative size-full">
                   <Image src={profile.avatar} alt={profile.name} fill sizes="80px" className="object-cover" priority />
                 </div>
