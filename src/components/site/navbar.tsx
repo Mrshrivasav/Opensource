@@ -3,8 +3,9 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion } from "motion/react"
-import { ChevronDown, Menu, PhoneCall } from "lucide-react"
+import { Menu as MenuPrimitive } from "@base-ui/react/menu"
+import { AnimatePresence, motion, type Variants } from "motion/react"
+import { ArrowUpRight, ChevronDown, Menu, PhoneCall } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,11 +45,100 @@ function Pill() {
   )
 }
 
+// "More" expands down from the trigger: a clip-path reveal with the items staggering in behind it.
+const popupVariants: Variants = {
+  closed: {
+    opacity: 0,
+    y: -6,
+    scale: 0.96,
+    filter: "blur(4px)",
+    clipPath: "inset(0% 0% 100% 0% round 14px)",
+    transition: { duration: 0.18, ease: [0.4, 0, 1, 1] },
+  },
+  open: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    clipPath: "inset(0% 0% 0% 0% round 14px)",
+    transition: { type: "spring", stiffness: 420, damping: 32, staggerChildren: 0.045, delayChildren: 0.06 },
+  },
+}
+
+const itemVariants: Variants = {
+  closed: { opacity: 0, x: -6, filter: "blur(3px)" },
+  open: { opacity: 1, x: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 500, damping: 30 } },
+}
+
+function MoreMenu({
+  open,
+  onOpenChange,
+  highlighted,
+  triggerClass,
+  onHover,
+}: {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  highlighted: boolean
+  triggerClass: string
+  onHover: React.HTMLAttributes<HTMLElement>
+}) {
+  return (
+    <MenuPrimitive.Root open={open} onOpenChange={(next) => onOpenChange(next)}>
+      <MenuPrimitive.Trigger {...onHover} className={triggerClass}>
+        {highlighted && <Pill />}
+        More
+        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ type: "spring", stiffness: 400, damping: 22 }} className="flex">
+          <ChevronDown className="size-3.5" />
+        </motion.span>
+      </MenuPrimitive.Trigger>
+      <AnimatePresence>
+        {open && (
+          <MenuPrimitive.Portal keepMounted>
+            <MenuPrimitive.Positioner align="end" sideOffset={10} className="z-50 outline-none">
+              <MenuPrimitive.Popup
+                render={
+                  <motion.div
+                    variants={popupVariants}
+                    initial="closed"
+                    animate="open"
+                    exit="closed"
+                    style={{ transformOrigin: "top right" }}
+                  />
+                }
+                className={cn(menuContentClass, "outline-none")}
+              >
+                {more.map((m) => (
+                  <MenuPrimitive.Item
+                    key={m.label}
+                    render={<Link href={m.href} />}
+                    className={cn(
+                      menuItemClass,
+                      "group/item flex items-center justify-between outline-none data-highlighted:bg-black/5 dark:data-highlighted:bg-white/10"
+                    )}
+                  >
+                    <motion.span variants={itemVariants} className="flex w-full items-center justify-between">
+                      {m.label}
+                      <ArrowUpRight className="size-3.5 -translate-x-1 opacity-0 transition-all duration-200 group-data-highlighted/item:translate-x-0 group-data-highlighted/item:opacity-60" />
+                    </motion.span>
+                  </MenuPrimitive.Item>
+                ))}
+              </MenuPrimitive.Popup>
+            </MenuPrimitive.Positioner>
+          </MenuPrimitive.Portal>
+        )}
+      </AnimatePresence>
+    </MenuPrimitive.Root>
+  )
+}
+
 export function Navbar() {
   const pathname = usePathname()
   const [hovered, setHovered] = useState<string | null>(null)
+  const [moreOpen, setMoreOpen] = useState(false)
   const active = links.find((l) => l.href === pathname)?.label ?? null
-  const highlighted = hovered ?? active
+  // Only one pill may exist at a time (shared layoutId); an open "More" menu keeps it.
+  const highlighted = moreOpen ? "More" : (hovered ?? active)
 
   const tone = (label: string) =>
     highlighted === label
@@ -73,20 +163,11 @@ export function Navbar() {
             {l.label}
           </Link>
         ))}
-        <DropdownMenu>
-          <DropdownMenuTrigger {...hoverProps("More")} className={cn(itemClass, "group/more hidden md:flex", tone("More"))}>
-            {highlighted === "More" && <Pill />}
-            More
-            <ChevronDown className="size-3.5 transition-transform duration-300 ease-out-quint group-data-popup-open/more:rotate-180" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" sideOffset={10} className={menuContentClass}>
-            {more.map((m) => (
-              <DropdownMenuItem key={m.label} className={menuItemClass} render={<Link href={m.href} />}>
-                {m.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <MoreMenu
+          open={moreOpen}
+          onOpenChange={setMoreOpen}
+          highlighted={highlighted === "More"}
+          triggerClass={cn(itemClass, "hidden md:flex", tone("More"))} onHover={hoverProps("More")} />
 
         {/* Mobile menu */}
         <DropdownMenu>
