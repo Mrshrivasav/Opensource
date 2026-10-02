@@ -25,12 +25,12 @@ export function ProjectsGrid() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-none fixed inset-0 z-[60] bg-black/25 backdrop-blur-md dark:bg-black/45"
+            className="pointer-events-none fixed inset-0 z-[60] bg-black/20 backdrop-blur-[5px] dark:bg-black/35"
           />
         )}
       </AnimatePresence>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:-mx-28 xl:-mx-32">
         {projects.map((project, i) => (
           <BlurFade
             key={project.id}

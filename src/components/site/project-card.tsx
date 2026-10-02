@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useSyncExternalStore } from "react"
 import Image from "next/image"
-import { ArrowUpRight, Check } from "lucide-react"
+import { ArrowRight, Check } from "lucide-react"
 import { FaGithub } from "react-icons/fa6"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -98,7 +98,7 @@ export function ProjectCard({
           src={project.thumbnail}
           alt=""
           fill
-          sizes="(min-width: 640px) 376px, 100vw"
+          sizes="(min-width: 1024px) 500px, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition-transform duration-700 ease-out group-data-active/tile:scale-[1.03]"
         />
         <HoverVideo src={project.video} playing={active} />
@@ -109,12 +109,13 @@ export function ProjectCard({
         />
 
         <span className="absolute top-3 right-3 grid size-9 scale-75 place-items-center rounded-full bg-white/90 text-black opacity-0 shadow-nav backdrop-blur-md transition-all duration-300 ease-out-quint group-focus-visible/tile:scale-100 group-focus-visible/tile:opacity-100 group-data-active/tile:scale-100 group-data-active/tile:opacity-100 pointer-coarse:scale-100 pointer-coarse:opacity-100">
-          <ArrowUpRight className="size-4 transition-transform duration-300 group-data-active/tile:translate-x-px group-data-active/tile:-translate-y-px" />
+          <ArrowRight className="size-4 transition-transform duration-400 ease-out-quint group-focus-visible/tile:-rotate-45 group-data-active/tile:-rotate-45 pointer-coarse:-rotate-45" />
         </span>
 
-        <span className="absolute inset-x-0 bottom-0 flex translate-y-3 flex-col gap-1 p-4 opacity-0 transition-all duration-400 ease-out-quint group-focus-visible/tile:translate-y-0 group-focus-visible/tile:opacity-100 group-data-active/tile:translate-y-0 group-data-active/tile:opacity-100 pointer-coarse:translate-y-0 pointer-coarse:opacity-100">
-          <span className="text-lg leading-snug font-medium tracking-tight text-white">{project.title}</span>
-          <span className="line-clamp-2 text-sm leading-relaxed text-white/75">{project.description}</span>
+        <span className="absolute inset-x-0 bottom-0 flex translate-y-3 flex-col items-start gap-1 p-4 opacity-0 transition-all duration-400 ease-out-quint group-focus-visible/tile:translate-y-0 group-focus-visible/tile:opacity-100 group-data-active/tile:translate-y-0 group-data-active/tile:opacity-100 pointer-coarse:translate-y-0 pointer-coarse:opacity-100">
+          <span className="mb-1 rounded-full bg-white/90 px-2.5 py-0.5 text-[11px] font-medium text-black backdrop-blur-md">{project.tag}</span>
+          <span className="text-[15px] leading-snug font-medium tracking-tight text-white">{project.title}</span>
+          <span className="line-clamp-2 text-xs leading-relaxed text-white/75">{project.description}</span>
         </span>
       </DialogTrigger>
 

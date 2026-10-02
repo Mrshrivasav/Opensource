@@ -21,6 +21,8 @@ export type Project = {
   id: string
   title: string
   category: string
+  /** Short chip shown on the hover tile. */
+  tag: string
   description: string
   /** Tile image. Placeholder frames from the videos for now; swap for real images in public/projects/thumbs. */
   thumbnail: string
@@ -42,6 +44,7 @@ export const projects: Project[] = [
     id: "portfolio",
     title: "My Portfolio",
     category: "Web App",
+    tag: "portfolio",
     description:
       "Personal portfolio built with Next.js, TypeScript, and Tailwind CSS to showcase projects, skills, and AI assistant integrations.",
     thumbnail: "/projects/thumbs/project-1.webp",
@@ -64,6 +67,7 @@ export const projects: Project[] = [
     id: "mental-health",
     title: "AI-Powered Mental Health Detection",
     category: "AI / ML",
+    tag: "local LLM",
     description: "Detects mental health trends from social media using a local LLM and AI analysis.",
     thumbnail: "/projects/thumbs/project-2.webp",
     video: "/projects/project-2.mp4",
@@ -84,6 +88,7 @@ export const projects: Project[] = [
     id: "ecommerce",
     title: "AI-Powered E-Commerce MERN App",
     category: "Web App",
+    tag: "e-commerce",
     description: "MERN stack online store with AI-powered recommendations and analytics.",
     thumbnail: "/projects/thumbs/project-3.webp",
     video: "/projects/project-3.mp4",
@@ -102,6 +107,7 @@ export const projects: Project[] = [
     id: "jarvis",
     title: "Jarvis Assistant with Local LLM & Face Auth",
     category: "AI / ML",
+    tag: "voice AI",
     description: "Personal assistant built with local LLM, face authentication, and voice commands.",
     thumbnail: "/projects/thumbs/project-4.webp",
     video: "/projects/project-4.mp4",
