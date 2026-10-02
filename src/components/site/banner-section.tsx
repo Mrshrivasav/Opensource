@@ -18,11 +18,8 @@ export function BannerSection() {
             <div aria-hidden className="absolute -right-16 -bottom-24 -z-10 size-80 rounded-full bg-[#0044ff]/25 blur-3xl dark:bg-[#0044ff]/20" />
             <div aria-hidden className="absolute top-1/2 left-1/2 -z-10 size-56 -translate-1/2 rounded-full bg-[#ff00cc]/15 blur-3xl" />
 
-            <h2 className="mx-auto max-w-xl text-3xl leading-[1.08] font-medium tracking-tight text-balance sm:text-4xl">
-              I help founders turn ideas into seamless{" "}
-              <span className="font-instrument-serif">
-                <span className="text-colorfull animate-gradient-x px-1 italic">digital experiences</span>
-              </span>
+            <h2 className="mx-auto max-w-xl font-instrument-serif text-4xl italic leading-[1.05] font-normal tracking-tight text-balance text-foreground sm:text-5xl">
+              I help founders turn ideas into seamless digital experiences
             </h2>
 
             <ul className="mt-6 flex flex-wrap justify-center gap-1.5">

@@ -52,7 +52,7 @@ export function Hero() {
                 </div>
               </div>
             </HoverLift>
-            <h1 className="mt-4 inline-block bg-linear-to-b from-zinc-500 via-zinc-600 to-zinc-900 bg-clip-text pb-1 font-instrument-serif text-3xl leading-none tracking-tight text-transparent sm:text-4xl dark:from-zinc-700 dark:via-zinc-200 dark:to-zinc-50">
+            <h1 className="mt-4 pb-1 font-instrument-serif text-3xl leading-none tracking-tight text-foreground sm:text-4xl">
               {profile.name}
             </h1>
           </BlurFade>
