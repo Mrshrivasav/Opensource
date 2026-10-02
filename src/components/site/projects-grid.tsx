@@ -30,7 +30,7 @@ export function ProjectsGrid() {
         )}
       </AnimatePresence>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:-mx-28 xl:-mx-32">
+      <div className="grid gap-4 sm:grid-cols-2">
         {projects.map((project, i) => (
           <BlurFade
             key={project.id}
