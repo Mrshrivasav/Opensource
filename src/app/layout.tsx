@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, Geist_Mono, Instrument_Serif, Outfit } from "next/font/google";
+import { DM_Serif_Display, Geist_Mono, IBM_Plex_Mono, Instrument_Serif, Outfit } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
@@ -19,6 +19,13 @@ const instrumentSerif = Instrument_Serif({
 const mono = Geist_Mono({
   variable: "--ff-mono",
   subsets: ["latin"],
+});
+
+// Display face for the name and section headings.
+const plex = IBM_Plex_Mono({
+  variable: "--ff-plex",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 const bluu = DM_Serif_Display({
@@ -41,7 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${outfit.variable} ${instrumentSerif.variable} ${mono.variable} ${bluu.variable} h-full antialiased`}
+      className={`${outfit.variable} ${instrumentSerif.variable} ${mono.variable} ${plex.variable} ${bluu.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

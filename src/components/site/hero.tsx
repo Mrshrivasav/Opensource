@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { ArrowUpRight, Award, GraduationCap, Mail, MapPin, Rocket } from "lucide-react"
+import { ArrowUpRight, Mail, MapPin } from "lucide-react"
 import { FaGithub, FaLinkedinIn, FaXTwitter } from "react-icons/fa6"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
@@ -15,14 +15,20 @@ const socialLinks = [
   { label: "Email", href: socials.email, icon: Mail },
 ]
 
-function Chip({ icon: Icon, tone, children }: { icon: React.ElementType; tone: string; children: React.ReactNode }) {
+/** Inline institution chip: official logo on a white tile, links to the institution's site. */
+function Chip({ logo, href, children }: { logo: string; href: string; children: React.ReactNode }) {
   return (
-    <span className="mx-0.5 inline-flex translate-y-[-1px] items-center gap-1 rounded-md bg-primary/5 px-1.5 py-px align-middle text-[0.85em] font-medium text-foreground shadow-border transition-transform duration-300 ease-out-quint hover:-translate-y-0.5 hover:-rotate-1">
-      <span className={`grid size-4 place-items-center rounded-[4px] ${tone}`}>
-        <Icon className="size-2.5" />
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="mx-0.5 inline-flex translate-y-[-1px] cursor-pointer items-center gap-1.5 rounded-md bg-primary/5 py-px pr-1.5 pl-0.5 align-middle text-[0.85em] font-medium text-foreground shadow-border transition-transform duration-300 ease-out-quint hover:-translate-y-0.5 hover:-rotate-1"
+    >
+      <span className="grid size-[18px] place-items-center rounded-[4px] bg-white ring-1 ring-black/5">
+        <Image src={logo} alt="" width={14} height={14} unoptimized className="size-3.5 object-contain" />
       </span>
       {children}
-    </span>
+    </a>
   )
 }
 
@@ -52,7 +58,7 @@ export function Hero() {
                 </div>
               </div>
             </HoverLift>
-            <h1 className="mt-4 pb-1 font-instrument-serif text-3xl leading-none tracking-tight text-foreground sm:text-4xl">
+            <h1 className="mt-4 pb-1 font-plex text-2xl leading-none font-normal tracking-tight text-foreground sm:text-[1.75rem]">
               {profile.name}
             </h1>
           </BlurFade>
@@ -86,7 +92,7 @@ export function Hero() {
           <BlurFade delay={0.2}>
             <p>
               I&apos;m a <strong className="font-medium text-foreground">Software Developer</strong> and BCA student at{" "}
-              <Chip icon={GraduationCap} tone="bg-blue-600 text-white">Galgotias University</Chip>, building thoughtful,
+              <Chip logo="/logos/galgotias.png" href="https://www.galgotiasuniversity.edu.in">Galgotias University</Chip>, building thoughtful,
               reliable and scalable digital experiences across web, data and AI.
             </p>
           </BlurFade>
@@ -99,9 +105,9 @@ export function Hero() {
           </BlurFade>
           <BlurFade delay={0.4}>
             <p>
-              Previously, I worked with <Chip icon={Rocket} tone="bg-orange-500 text-white">IIT Bombay E-Cell</Chip> helping
+              Previously, I worked with <Chip logo="/logos/iit-bombay.svg" href="https://www.ecell.in">IIT Bombay E-Cell</Chip> helping
               early-stage startups ship, and completed a micro-credit programme at{" "}
-              <Chip icon={Award} tone="bg-rose-500 text-white">IIT Guwahati</Chip>.
+              <Chip logo="/logos/iit-guwahati.svg" href="https://www.iitg.ac.in">IIT Guwahati</Chip>.
             </p>
           </BlurFade>
           <BlurFade delay={0.5}>

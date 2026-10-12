@@ -1,3 +1,4 @@
+import { ChatWidget } from "@/components/site/chat-widget"
 import { Footer } from "@/components/site/footer"
 import { Navbar } from "@/components/site/navbar"
 import { SayHiBar } from "@/components/site/say-hi-bar"
@@ -9,6 +10,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       <main className="flex-1">{children}</main>
       <Footer />
       <SayHiBar />
+      <ChatWidget />
     </>
   )
 }

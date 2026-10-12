@@ -13,7 +13,7 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("mb-8", className)}>
-      <h2 className="font-instrument-serif text-4xl italic leading-tight font-normal tracking-tight text-balance text-foreground md:text-[2.75rem]">
+      <h2 className="font-plex text-2xl leading-tight font-normal tracking-tight text-balance text-foreground md:text-[1.875rem]">
         {title}
         {accent && ` ${accent}`}
       </h2>

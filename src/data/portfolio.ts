@@ -7,7 +7,12 @@ export const profile = {
   avatar: "/profile/avatar.webp",
   email: "amanshriwastava0@gmail.com",
   resume: "/resume.pdf",
-  bookCall: "mailto:amanshriwastava0@gmail.com?subject=Let%27s%20book%20a%20call",
+  bookCall: "/contact",
+  /**
+   * cal.com booking link, e.g. "diggaj/30min" for https://cal.com/diggaj/30min.
+   * While empty, /contact shows an email fallback in place of the calendar.
+   */
+  calLink: "",
 }
 
 export const socials = {
@@ -24,7 +29,7 @@ export type Project = {
   /** Short chip shown on the hover tile. */
   tag: string
   description: string
-  /** Tile image. Placeholder frames from the videos for now; swap for real images in public/projects/thumbs. */
+  /** Card image (16:9) from public/projects/thumbs. */
   thumbnail: string
   video: string
   poster: string
@@ -47,7 +52,7 @@ export const projects: Project[] = [
     tag: "portfolio",
     description:
       "Personal portfolio built with Next.js, TypeScript, and Tailwind CSS to showcase projects, skills, and AI assistant integrations.",
-    thumbnail: "/projects/thumbs/project-1.webp",
+    thumbnail: "/projects/thumbs/portfolio-thumbnail.png",
     video: "/projects/project-1.mp4",
     poster: "/projects/project-1.webp",
     github: "https://github.com/Mrshrivasav",
@@ -69,7 +74,7 @@ export const projects: Project[] = [
     category: "AI / ML",
     tag: "local LLM",
     description: "Detects mental health trends from social media using a local LLM and AI analysis.",
-    thumbnail: "/projects/thumbs/project-2.webp",
+    thumbnail: "/projects/thumbs/mental-health-thumbnail.png",
     video: "/projects/project-2.mp4",
     poster: "/projects/project-2.webp",
     github: "https://github.com/Mrshrivasav",
@@ -90,7 +95,7 @@ export const projects: Project[] = [
     category: "Web App",
     tag: "e-commerce",
     description: "MERN stack online store with AI-powered recommendations and analytics.",
-    thumbnail: "/projects/thumbs/project-3.webp",
+    thumbnail: "/projects/thumbs/ecommerce-thumbnail.png",
     video: "/projects/project-3.mp4",
     poster: "/projects/project-3.webp",
     github: "https://github.com/Mrshrivasav",
@@ -109,7 +114,7 @@ export const projects: Project[] = [
     category: "AI / ML",
     tag: "voice AI",
     description: "Personal assistant built with local LLM, face authentication, and voice commands.",
-    thumbnail: "/projects/thumbs/project-4.webp",
+    thumbnail: "/projects/thumbs/jarvis-thumbnail.png",
     video: "/projects/project-4.mp4",
     poster: "/projects/project-4.webp",
     github: "https://github.com/Mrshrivasav",
@@ -203,7 +208,8 @@ export type Experience = {
   org: string
   location: string
   period: string
-  icon: "rocket" | "brain" | "code"
+  /** Organisation logo in public/logos. */
+  logo: string
   points: string[]
 }
 
@@ -213,7 +219,7 @@ export const experiences: Experience[] = [
     org: "Galgotias University Startup Center",
     location: "Gautam Buddh Nagar",
     period: "Aug 2025 – Sep 2025",
-    icon: "rocket",
+    logo: "/logos/iit-bombay.svg",
     points: [
       "Guided peers in AIML development, integrating advanced models to support innovation initiatives.",
       "Supported startups with web and app development, using Docker for scalable and reliable deployments.",
@@ -225,7 +231,7 @@ export const experiences: Experience[] = [
     org: "Galgotias University Startup Center",
     location: "Gautam Buddh Nagar",
     period: "Jun 2025 – 2025",
-    icon: "brain",
+    logo: "/logos/galgotias.png",
     points: [
       "Integrated agentic AI into web applications, enabling autonomous task execution.",
       "Implemented large language models (LLMs) for contextual chat, improving user interaction and intelligent content generation.",
@@ -237,7 +243,7 @@ export const experiences: Experience[] = [
     org: "Galgotias University Startup Center",
     location: "Gautam Buddh Nagar",
     period: "Feb 2025 – Apr 2025",
-    icon: "code",
+    logo: "/logos/galgotias.png",
     points: [
       "Developed a REST API using FastAPI and PostgreSQL to store and manage data from learning management systems.",
       "Built a full-stack web application using Flask, React, PostgreSQL, and Docker to analyze GitHub data.",
@@ -250,3 +256,48 @@ export const experiences: Experience[] = [
 export type Testimonial = { quote: string; name: string; role: string }
 
 export const testimonials: Testimonial[] = []
+
+export type Certificate = { title: string; issuer: string; description: string; year?: string }
+
+/** Every proof lives in one Drive folder. */
+export const certificatesFolder = "https://drive.google.com/drive/folders/1G_j5ANmThTQyQQx5kJg0PjUeCCKaESI1?usp=sharing"
+
+export const certificates: Certificate[] = [
+  {
+    title: "Micro Credit Skill Up Programme with BTech CSE",
+    issuer: "IIT Guwahati",
+    year: "2024",
+    description: "Completed micro credit and entrepreneurship skill development program.",
+  },
+  { title: "Final Certification", issuer: "IIT Guwahati", year: "2024", description: "Official final certification issued by IIT Guwahati." },
+  {
+    title: "Hennge Programme Global Competition",
+    issuer: "Tokyo Hennge",
+    description: "Participated in global competition organized by Tokyo Hennge.",
+  },
+  {
+    title: "Eduskill Certification",
+    issuer: "Google For Developers",
+    description: "Completed Eduskill program in collaboration with Google Developers.",
+  },
+  { title: "Intro To Networks", issuer: "Cisco", description: "Certified introduction to networking concepts by Cisco." },
+  { title: "Online Entrepreneurship", issuer: "NPTEL", description: "Completed online entrepreneurship program through NPTEL." },
+  { title: "Full Stack Development", issuer: "Apna College", description: "Completed full stack development training at Apna College." },
+  { title: "AWS Solution Architect", issuer: "AWS", description: "Certified AWS Solution Architect training." },
+  { title: "Business Insight", issuer: "Tata Forge", description: "Completed business insight program by Tata Forge." },
+  {
+    title: "National Literacy Quiz",
+    issuer: "Galgotias University",
+    description: "Awarded for participation in the National Literacy Quiz at Galgotias University.",
+  },
+]
+
+export type BucketItem = { title: string; done: boolean }
+
+export const bucketList: BucketItem[] = [
+  { title: "Contribute to a major Open Source project", done: true },
+  { title: "Build a SaaS product to $1k MRR", done: false },
+  { title: "Travel to Japan", done: false },
+  { title: "Learn to fly a plane", done: false },
+  { title: "Give a talk at a tech conference", done: true },
+]

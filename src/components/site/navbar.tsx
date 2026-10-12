@@ -27,6 +27,8 @@ const links = [
 const more = [
   { label: "Experience", href: "/#experience" },
   ...(testimonials.length ? [{ label: "Testimonials", href: "/#testimonials" }] : []),
+  { label: "Certificates", href: "/certificates" },
+  { label: "Bucket list", href: "/bucketlist" },
   { label: "Resume", href: profile.resume },
 ]
 
@@ -137,7 +139,9 @@ export function Navbar() {
   const pathname = usePathname()
   const [hovered, setHovered] = useState<string | null>(null)
   const [moreOpen, setMoreOpen] = useState(false)
-  const active = links.find((l) => l.href === pathname)?.label ?? null
+  // Pages reached from "More" light up the "More" trigger.
+  const active =
+    links.find((l) => l.href === pathname)?.label ?? (more.some((m) => m.href === pathname) ? "More" : null)
   // Only one pill may exist at a time (shared layoutId); an open "More" menu keeps it.
   const highlighted = moreOpen ? "More" : (hovered ?? active)
 
@@ -186,7 +190,7 @@ export function Navbar() {
         </DropdownMenu>
 
         {/* Raised pill: lighter gradient + top highlight; brightens a touch on hover. */}
-        <a
+        <Link
           href={profile.bookCall}
           onMouseEnter={() => setHovered("Book")}
           onFocus={() => setHovered("Book")}
@@ -197,7 +201,7 @@ export function Navbar() {
           )}
         >
           Book a Call
-        </a>
+        </Link>
       </nav>
 
       <HoverLift rotate={-8}>

@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { CtaButton } from "@/components/design-system/cta-button"
 import { BlurFade } from "@/components/site/blur-fade"
@@ -18,7 +19,7 @@ export function BannerSection() {
             <div aria-hidden className="absolute -right-16 -bottom-24 -z-10 size-80 rounded-full bg-[#0044ff]/25 blur-3xl dark:bg-[#0044ff]/20" />
             <div aria-hidden className="absolute top-1/2 left-1/2 -z-10 size-56 -translate-1/2 rounded-full bg-[#ff00cc]/15 blur-3xl" />
 
-            <h2 className="mx-auto max-w-xl font-instrument-serif text-4xl italic leading-[1.05] font-normal tracking-tight text-balance text-foreground sm:text-5xl">
+            <h2 className="mx-auto max-w-xl font-plex text-2xl leading-[1.2] font-normal tracking-tight text-balance text-foreground sm:text-3xl">
               I help founders turn ideas into seamless digital experiences
             </h2>
 
@@ -38,7 +39,7 @@ export function BannerSection() {
             </ul>
 
             <div className="mt-8 flex justify-center">
-              <CtaButton className="text-sm" render={<a href={profile.bookCall} />} nativeButton={false}>
+              <CtaButton className="text-sm" render={<Link href={profile.bookCall} />} nativeButton={false}>
                 Book a Call
               </CtaButton>
             </div>

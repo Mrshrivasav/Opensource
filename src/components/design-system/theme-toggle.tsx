@@ -14,6 +14,34 @@ function subscribe(onChange: () => void) {
 
 const isDark = () => document.documentElement.classList.contains("dark")
 
+/** Current theme, kept in sync with the class on <html>. False on the server. */
+export function useIsDark() {
+  return useSyncExternalStore(subscribe, isDark, () => false)
+}
+
+function applyTheme(dark: boolean) {
+  document.documentElement.classList.toggle("dark", dark)
+  try {
+    localStorage.setItem("theme", dark ? "dark" : "light")
+  } catch {}
+}
+
+/**
+ * Swaps the theme behind a View Transition: the new theme sweeps in sideways over a
+ * snapshot of the old one (left to right into dark, right to left back to light).
+ * Browsers without the API, and reduced-motion users, get an instant swap.
+ */
+function switchTheme(dark: boolean) {
+  const root = document.documentElement
+  if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    applyTheme(dark)
+    return
+  }
+  root.dataset.themeSweep = dark ? "to-dark" : "to-light"
+  const transition = document.startViewTransition(() => applyTheme(dark))
+  transition.finished.finally(() => delete root.dataset.themeSweep)
+}
+
 export function ThemeToggle({
   className,
   variant = "elevated",
@@ -21,15 +49,7 @@ export function ThemeToggle({
   className?: string
   variant?: "elevated" | "ghost"
 }) {
-  const dark = useSyncExternalStore(subscribe, isDark, () => false)
-
-  function toggle() {
-    const next = !dark
-    document.documentElement.classList.toggle("dark", next)
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light")
-    } catch {}
-  }
+  const dark = useIsDark()
 
   return (
     <Tooltip>
@@ -39,7 +59,7 @@ export function ThemeToggle({
             variant={variant}
             size="icon-round"
             className={className}
-            onClick={toggle}
+            onClick={() => switchTheme(!dark)}
             aria-label="Toggle theme"
           />
         }

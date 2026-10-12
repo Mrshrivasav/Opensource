@@ -8,10 +8,7 @@ export function ProjectsSection() {
     <section id="work" className="scroll-mt-24 py-12 sm:py-14">
       <Container>
         <BlurFade inView>
-          <SectionHeading title="Featured" accent="projects">
-            Products and experiments that pair solid architecture with expressive interfaces, from local LLM assistants to
-            full-stack MERN apps.
-          </SectionHeading>
+          <SectionHeading title="Featured" accent="projects" />
         </BlurFade>
         <ProjectsGrid />
       </Container>

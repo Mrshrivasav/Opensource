@@ -23,6 +23,7 @@
   --font-instrument-serif: var(--ff-instrument-serif), ui-serif, Georgia, serif;
   --font-bluu: var(--ff-bluu), ui-serif, Georgia, serif;
   --font-mono: var(--ff-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-plex: var(--ff-plex), ui-monospace, SFMono-Regular, monospace;
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -256,12 +257,39 @@
   animation: var(--animate-shiny-text);
 }
 
+/* Soft light band sweeping across text (the "Chat with AI" label). Works in any text colour. */
+@utility text-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    color-mix(in oklab, currentColor 55%, transparent) 40%,
+    currentColor 50%,
+    color-mix(in oklab, currentColor 55%, transparent) 60%
+  );
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 2.6s linear infinite;
+}
+
+@keyframes text-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: 0 0; }
+}
+
 /* Diagonal hatch used as a section gutter. */
 @utility bg-hatch {
   background-size: 5px 5px;
   background-image: linear-gradient(45deg, var(--color-neutral-300) 12.5%, transparent 12.5%, transparent 50%, var(--color-neutral-300) 50%, var(--color-neutral-300) 62.5%, transparent 62.5%, transparent 100%);
   @variant dark {
     background-image: linear-gradient(45deg, var(--color-neutral-800) 12.5%, transparent 12.5%, transparent 50%, var(--color-neutral-800) 50%, var(--color-neutral-800) 62.5%, transparent 62.5%, transparent 100%);
+  }
+}
+
+/* IBM Plex Mono is set in capitals by default; add `normal-case` to opt out (layered so utilities win). */
+@layer components {
+  .font-plex {
+    text-transform: uppercase;
   }
 }
 
@@ -310,6 +338,38 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--scrollbar-thumb-hover);
+}
+
+/*
+ * Theme switch (see theme-toggle.tsx). The incoming theme is revealed through a soft-edged
+ * mask that slides across the page; the old snapshot stays put underneath.
+ * The mask is 3x the page width: opaque third, gradient edge, transparent third.
+ */
+html[data-theme-sweep]::view-transition-old(root),
+html[data-theme-sweep]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html[data-theme-sweep]::view-transition-new(root) {
+  mask-size: 300% 100%;
+  mask-repeat: no-repeat;
+  animation: 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[data-theme-sweep="to-dark"]::view-transition-new(root) {
+  mask-image: linear-gradient(to right, #000 33.3%, #0000 66.6%);
+  animation-name: theme-sweep-right;
+}
+html[data-theme-sweep="to-light"]::view-transition-new(root) {
+  mask-image: linear-gradient(to left, #000 33.3%, #0000 66.6%);
+  animation-name: theme-sweep-left;
+}
+@keyframes theme-sweep-right {
+  from { mask-position: 100% 0; }
+  to { mask-position: 0 0; }
+}
+@keyframes theme-sweep-left {
+  from { mask-position: 0 0; }
+  to { mask-position: 100% 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
