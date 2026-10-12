@@ -30,7 +30,7 @@ export function ExperienceSection() {
                       </HoverLift>
                       <span className="min-w-0 flex-1">
                         <span className="flex items-center gap-2">
-                          <span className="truncate font-plex text-sm font-normal tracking-tight transition-colors group-hover/exp:text-neutral-600 sm:text-[15px] dark:group-hover/exp:text-neutral-300">{exp.title}</span>
+                          <span className="min-w-0 font-plex text-sm leading-snug font-normal tracking-tight text-pretty transition-colors group-hover/exp:text-neutral-600 sm:text-[15px] dark:group-hover/exp:text-neutral-300">{exp.title}</span>
                           <ChevronDown className="size-4 shrink-0 text-muted-foreground transition-transform group-open/exp:rotate-180" />
                         </span>
                         <span className="mt-0.5 flex items-center gap-4">
