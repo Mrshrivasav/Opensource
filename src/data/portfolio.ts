@@ -9,10 +9,10 @@ export const profile = {
   resume: "/resume.pdf",
   bookCall: "/contact",
   /**
-   * cal.com booking link, e.g. "diggaj/30min" for https://cal.com/diggaj/30min.
-   * While empty, /contact shows an email fallback in place of the calendar.
+   * cal.com booking link: the part after "cal.com/". While empty, /contact shows an email fallback.
+   * TODO: placeholder (bikashsahu/30min). Replace with Diggaj's own cal.com link; see README.
    */
-  calLink: "",
+  calLink: "bikashsahu/30min",
 }
 
 export const socials = {

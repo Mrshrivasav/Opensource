@@ -48,7 +48,9 @@ Troubleshooting:
 
 ### 2. Booking calendar (`/contact`)
 
-Every "Book a Call" button opens `/contact`, which embeds a [cal.com](https://cal.com) calendar. Visitors pick a date and time, enter their name and email, and the booking lands in your calendar. Until a link is set, the page shows an "Email to book" card instead.
+Every "Book a Call" button opens `/contact`, which embeds a [cal.com](https://cal.com) calendar. Visitors pick a date and time, enter their name and email, and the booking lands in your calendar. If `calLink` is empty, the page shows an "Email to book" card instead.
+
+> **⚠️ To do: update the link.** `calLink` is currently a placeholder, `bikashsahu/30min` ([cal.com/bikashsahu/30min](https://cal.com/bikashsahu/30min)), so bookings go to that account. Replace it with your own cal.com link (steps below) before going live.
 
 1. Sign up at [cal.com](https://cal.com/signup) (the free plan is enough). Your username becomes your link, e.g. `cal.com/diggaj`.
 2. In the cal.com dashboard:
